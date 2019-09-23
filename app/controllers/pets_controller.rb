@@ -7,28 +7,24 @@ class PetsController < ApplicationController
 
   # GET /pets
   def index
-    header = {
-      Authorization: "Bearer " + ENV[:access_token.to_s]
-    }
-    petType = params[:type]
-    response = RestClient.get('https://api.petfinder.com/v2/animals', header)
-    results = JSON.parse(response)
-    render json: results
+
   end
 
   def search
   petUrl = 'https://api.petfinder.com/v2/animals'
+  
 
     header = {
       Authorization: "Bearer " + ENV[:access_token.to_s]
     }
 
-    if params[:type]
-      petType = params[:type]
-      petUrl = petUrl + '?type=' + petType
-    end
-    binding.pry
-    response = RestClient.get(petUrl, header)
+    # if params[:type]
+      petType = request.headers['HTTP_PETS']
+      newPetUrl = petUrl + '?type=' + petType
+      binding.pry
+    # end
+
+    response = RestClient.get(newPetUrl, header)
     results = JSON.parse(response)
     render json: results
   end
