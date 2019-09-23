@@ -12,21 +12,20 @@ class PetsController < ApplicationController
 
   def search
   petUrl = 'https://api.petfinder.com/v2/animals'
-  
 
     header = {
       Authorization: "Bearer " + ENV[:access_token.to_s]
     }
 
-    # if params[:type]
-      petType = request.headers['HTTP_PETS']
-      newPetUrl = petUrl + '?type=' + petType
-      binding.pry
-    # end
-
-    response = RestClient.get(newPetUrl, header)
+    if params[:type]
+      petType = params[:type]
+      petUrl = petUrl + '?type=' + petType
+    end
+   
+    response = RestClient.get(petUrl, header)
     results = JSON.parse(response)
     render json: results
+
   end
 
   # GET /pets/1
