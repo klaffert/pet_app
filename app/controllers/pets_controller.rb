@@ -21,7 +21,7 @@ class PetsController < ApplicationController
       petType = params[:type]
       petUrl = petUrl + '?type=' + petType
     end
-   
+
     response = RestClient.get(petUrl, header)
     results = JSON.parse(response)
     render json: results
