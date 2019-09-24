@@ -17,15 +17,17 @@ class PetsController < ApplicationController
       Authorization: "Bearer " + ENV[:access_token.to_s]
     }
 
-    if params[:type]
-      petType = params[:type]
-      petUrl = petUrl + '?type=' + petType
+    if params[:type] && params[:location] && params[:distance]
+      petType = params[:type] 
+      location = params[:location]
+      distance = params[:distance]
+      petUrl = petUrl + '?type=' + petType + '&location=' + location + '&distance=' + distance
     end
 
     response = RestClient.get(petUrl, header)
     results = JSON.parse(response)
     render json: results
-
+    
   end
 
   # GET /pets/1
