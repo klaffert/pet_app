@@ -35,6 +35,9 @@ class PetsController < ApplicationController
     render json: @pet
   end
 
+
+
+
   # POST /pets
   def create
     @pet = Pet.new(pet_params)
