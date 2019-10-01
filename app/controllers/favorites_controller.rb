@@ -15,27 +15,28 @@ class FavoritesController < ApplicationController
 
   # POST /favorites
   def create
-    @favorite = Favorite.new(favorite_params)
-
-    if @favorite.save
-      render json: @favorite, status: :created, location: @favorite
+    favorite = Favorite.new(favorite_params)
+    if favorite.save!
+      render json: favorite
     else
-      render json: @favorite.errors, status: :unprocessable_entity
+      render :new
     end
   end
 
   # PATCH/PUT /favorites/1
   def update
     if @favorite.update(favorite_params)
-      render json: @favorite
+      redirect_to @favorite, notice: 'Favorite was successfully updated.'
     else
-      render json: @favorite.errors, status: :unprocessable_entity
+      render :edit
     end
   end
 
   # DELETE /favorites/1
   def destroy
     @favorite.destroy
+    redirect_to favorites_url, notice: 'Favorite was successfully destroyed.'
+
   end
 
   private
